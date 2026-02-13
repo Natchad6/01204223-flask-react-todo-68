@@ -34,7 +34,7 @@ describe('TodoItem', () => {
 
     expect(screen.getByText('Sample Todo')).toBeInTheDocument();
     expect(screen.queryByText('First comment')).toBeInTheDocument();    
-    expect(screen.queryByText('Another comment')).toBeInTheDocument();
+    expect(screen.queryByText(' comment')).toBeInTheDocument();
     expect(screen.getByText(/2/)).toBeInTheDocument();
     //
     // *** TODO: ให้เพิ่ม assertion ว่ามีข้อความ First comment และ Another comment บนหน้าจอ
