@@ -5,7 +5,7 @@ function TodoItem({ todo, toggleDone, deleteTodo, addNewComment }) {
   const [newComment, setNewComment] = useState("");
   return (
     <li>
-      2 Pun
+      2
       <span className={todo.done ? "done" : ""}>{todo.title}</span>
       <button onClick={() => { toggleDone(todo.id) }}>Toggle</button>
       <button onClick={() => { deleteTodo(todo.id) }}>❌</button>
