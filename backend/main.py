@@ -60,11 +60,6 @@ todo_list = [
 def get_todos():
     todos = TodoItem.query.all()
     return jsonify([todo.to_dict() for todo in todos])
-    
-@app.route('/api/todos/', methods=['GET'])
-def get_todos():
-    todos = TodoItem.query.all()
-    return jsonify([todo.to_dict() for todo in todos])
 
 @app.route('/api/todos/', methods=['POST'])
 def add_todo():
