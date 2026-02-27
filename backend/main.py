@@ -1,7 +1,7 @@
 ################# 
 ### ไฟล์ main.py
 #################
-
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 # from flask_sqlalchemy import SQLAlchemy                            # ลบออกได้
@@ -9,19 +9,19 @@ from flask_cors import CORS
 # from sqlalchemy import Integer, String, ForeignKey                 # ลบออกได้
 # from sqlalchemy.orm import Mapped, mapped_column, relationship     # ลบออกได้
 from flask_migrate import Migrate
+from dotenv import load_dotenv
 
 from models import TodoItem, Comment, User , db                          # import จาก models
 import click
-
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from flask_jwt_extended import JWTManager
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
-
-app.config['JWT_SECRET_KEY'] = 'fdsjkfjioi2rjshr2345hrsh043j5oij5545'
+print(os.getenv('SQLALCHEMY_DATABASE_URI'))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI') 
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
 db.init_app(app)                                                     # แก้จาก db = SQLAlchemy(app, model_class=Base)
@@ -42,9 +42,6 @@ migrate = Migrate(app, db)
 #         db.session.commit()
 
 
-def new_todo(data):
-    return TodoItem(title=data['title'], 
-                   done=data.get('done', False))
 
 todo_list = [
     { "id": 1,
@@ -60,6 +57,11 @@ todo_list = [
 def get_todos():
     todos = TodoItem.query.all()
     return jsonify([todo.to_dict() for todo in todos])
+
+def new_todo(data):
+    return TodoItem(title=data['title'], 
+                   done=data.get('done', False))
+
 
 @app.route('/api/todos/', methods=['POST'])
 def add_todo():

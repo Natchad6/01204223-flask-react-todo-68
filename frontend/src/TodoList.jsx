@@ -25,6 +25,13 @@ function TodoList({apiUrl}) {
           'Authorization': `Bearer ${accessToken}`
         }
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch todo list");
+      }
+
+      const data = await response.json();
+      setTodoList(data);
     } catch (err) {
       //alert("Failed to fetch todo list from backend. Make sure the backend is running.");
       setTodoList([]); 
@@ -86,10 +93,12 @@ function TodoList({apiUrl}) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({ 'message': newComment }),    
       });
       if (response.ok) {
+        console.log(response);
         await fetchTodoList();
       }
     } catch (error) {
