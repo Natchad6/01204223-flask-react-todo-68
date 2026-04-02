@@ -2,6 +2,7 @@ from models import User
 from models import TodoItem, Comment, db
 
 
+
 def test_check_correct_password():
     user = User()
     user.set_password("testpassword")
